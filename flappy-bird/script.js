@@ -11,12 +11,12 @@ const p = document.createElement("p");
 
 var lastRenderTime;
 const SPEED = 55   //Definit la vitesse d'update du jeu (1= une update/sec)
-var index = 0;
+var index = 0; //utile pour animer les sprites et le background
 
 function main (currentTime){
     
     if (lastRenderTime==null){
-        lastRenderTime = currentTime;
+        lastRenderTime = currentTime; //ligne 19 à 29 sert à appeler fonction main tout les x temps (x depend de la variable SPEED)
         window.requestAnimationFrame(main);
         return;
     }
@@ -24,7 +24,7 @@ function main (currentTime){
    
     window.requestAnimationFrame(main);
     
-    if(deltaSec<(1/SPEED)*1000) return;
+    if(deltaSec<(1/SPEED)*1000) return; //si deltaSec plus petit que notre vitesse d'update voulu, on ne fait rien
     
     lastRenderTime = currentTime;
 
@@ -37,7 +37,7 @@ function main (currentTime){
         document.addEventListener("keypress",start,{once:true})
 
     }
-    else{
+    else{ //si pas perdu on joue en mettant a jour 
         h2.innerText=`score : ${score}`;
         update(deltaSec);
         draw(index);
@@ -46,11 +46,11 @@ function main (currentTime){
     }
 }
 
-function start(){
+function start(){ //demarre le jeu en positionnant l'oiseau et mettant le score à 0
     birdSetup();
     setScore(0);
     ctx.clearRect(0,0,canvas.width,canvas.height)
-    for (var i = 0; i <4;i++){
+    for (var i = 0; i <4;i++){ //on enleve tout les anciens pilliers lorsqu'on commence un nouveau jeu
 
         pillars.shift()
     }
@@ -59,7 +59,7 @@ function start(){
     canvas.classList.remove("hide");
     window.requestAnimationFrame(main)
 }
-function checkLose(){
+function checkLose(){ //regarde s'il y a une collision entre l'oiseau et un pilier
     if(yB>canvas.height-32) return true;
     if (pillars[0] != undefined){
         if((pillars[0].pos<70 && pillars[0].pos>38) && (yB<pillars[0].taille-56 || yB>pillars[0].taille+53  )) return true;
