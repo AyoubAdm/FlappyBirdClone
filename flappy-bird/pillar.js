@@ -17,16 +17,16 @@ function randomIntFromInterval(min, max) {
 
 
 export function update(delta){
-    if(timeSinceLastPillar>PILLAR_INTERVAL){
+    if(timeSinceLastPillar>PILLAR_INTERVAL){ //si intervalle depassé, on creer nouveau pillier
         createPillar()
         timeSinceLastPillar = 0;
     }
     if(pillars[0]!=undefined){
-      if (pillars[0].pos<30 && pillars[0].pos>23){score++;}
-      if(pillars[0].pos<-10){pillars.shift()}
+      if (pillars[0].pos<30 && pillars[0].pos>23){score++;} //on augmente le score si l'oiseau a depassé le pilier
+      if(pillars[0].pos<-10){pillars.shift()} //si pilier sort du canvas, on l'enleve de la liste
     }
     
-    pillars.forEach(p =>{
+    pillars.forEach(p =>{ //met a jour la position du pillier en fonction de la PILLAR_SPEED et le dessine
       p.pos = p.pos-PILLAR_SPEED, p.taille;
       draw(p.pos,p.taille)})
     timeSinceLastPillar+=delta;    
@@ -38,11 +38,11 @@ function createPillar(){
 }
 
 
-  function draw(pos,taille){
+  function draw(pos,taille){ //dessine pillier avec ses coordonnées
     ctx.drawImage(pillar,0,0,64,320,pos,-42,40,taille);
     ctx.drawImage(pillar,0,0,64,320,pos,taille+GAP,40,canvas.height-taille-GAP);
 }
 
-export function setScore(n){
+export function setScore(n){ 
   score=n;
 }
